@@ -13,5 +13,25 @@ namespace projectoef
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Categoria>(categoria =>
+            {
+                categoria.ToTable("Categoria");
+                categoria.HasKey(p => p.CategoriaId);
+
+                categoria.Property(p => p.Nombre).IsRequired().HasMaxLength(200);
+
+                categoria.Property(p => p.Descripcion).HasMaxLength(200);
+            });
+
+            modelBuilder.Entity<Tarea>(tarea =>
+            {
+                tarea.ToTable("Tarea");
+                tarea.HasKey(p => p.TareaId);
+
+            });
+        }
     }
 }
