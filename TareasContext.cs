@@ -43,6 +43,8 @@ namespace projectoef
 
                 tarea.Property(p => p.FechaCreacion);
 
+                tarea.Ignore(p => p.Resumen);
+
             });
         }
     }
