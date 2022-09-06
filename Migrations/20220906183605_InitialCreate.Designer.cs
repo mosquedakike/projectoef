@@ -12,7 +12,7 @@ using projectoef;
 namespace proyectoef.Migrations
 {
     [DbContext(typeof(TareasContext))]
-    [Migration("20220906024233_InitialCreate")]
+    [Migration("20220906183605_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
