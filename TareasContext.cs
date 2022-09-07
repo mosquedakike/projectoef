@@ -9,7 +9,7 @@ namespace projectoef
 
         public DbSet<Tarea> Tareas { get; set; }
 
-        public TareasContext(DbContextOptions<TareasContext> options): base(options)
+        public TareasContext(DbContextOptions<TareasContext> options) : base(options)
         {
 
         }
@@ -17,22 +17,18 @@ namespace projectoef
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             List<Categoria> categoriasInit = new List<Categoria>();
-            categoriasInit.Add(new Categoria() { CategoriaId = Guid.Parse("d7352e8e-7435-40d3-99bb-353290b10546"), Nombre = "Actividades pendientes", Peso = 20});
-            categoriasInit.Add(new Categoria() { CategoriaId = Guid.Parse("d7352e8e-7435-40d3-99bb-353290b10547"), Nombre = "Actividades personales", Peso = 50 });
-
-            modelBuilder.Entity<Categoria>(categoria =>
+            categoriasInit.Add(new Categoria()
             {
-                categoria.ToTable("Categoria");
+                CategoriaId = Guid.Parse("d7352e8e-7435-40d3-99bb-353290b10546"),
+                Nombre = "Actividades pendientes",
+                Peso = 20
+            });
 
-                categoria.HasKey(p => p.CategoriaId);
-
-                categoria.Property(p => p.Nombre).IsRequired().HasMaxLength(200);
-
-                categoria.Property(p => p.Descripcion).HasMaxLength(200);
-
-                categoria.Property(p => p.Peso);
-
-                categoria.HasData(categoriasInit);
+            categoriasInit.Add(new Categoria()
+            {
+                CategoriaId = Guid.Parse("d7352e8e-7435-40d3-99bb-353290b10547"),
+                Nombre = "Actividades personales",
+                Peso = 50
             });
 
             List<Tarea> tareasInit = new List<Tarea>();
@@ -40,7 +36,9 @@ namespace projectoef
             {
                 TareaId = Guid.Parse("d7352e8e-7435-40d3-99bb-353290b10548"),
                 CategoriaId = Guid.Parse("d7352e8e-7435-40d3-99bb-353290b10546"),
-                PrioridadTarea = Prioridad.Media, Titulo = "Pago de servicios publicos", FechaCreacion = DateTime.Now
+                PrioridadTarea = Prioridad.Media,
+                Titulo = "Pago de servicios publicos",
+                FechaCreacion = DateTime.Now
             });
 
             tareasInit.Add(new Tarea()
@@ -50,6 +48,21 @@ namespace projectoef
                 PrioridadTarea = Prioridad.Baja,
                 Titulo = "Terminar de ver serie",
                 FechaCreacion = DateTime.Now
+            });
+
+            modelBuilder.Entity<Categoria>(categoria =>
+            {
+                categoria.ToTable("Categoria");
+
+                categoria.HasKey(p => p.CategoriaId);
+
+                categoria.Property(p => p.Nombre).IsRequired().HasMaxLength(200);
+
+                categoria.Property(p => p.Descripcion).HasMaxLength(200).IsRequired(false);
+
+                categoria.Property(p => p.Peso);
+
+                categoria.HasData(categoriasInit);
             });
 
             modelBuilder.Entity<Tarea>(tarea =>
@@ -62,7 +75,7 @@ namespace projectoef
 
                 tarea.Property(p => p.Titulo).IsRequired().HasMaxLength(200);
 
-                tarea.Property(p => p.Descripcion).HasMaxLength(200);
+                tarea.Property(p => p.Descripcion).HasMaxLength(200).IsRequired(false);
 
                 tarea.Property(p => p.PrioridadTarea);
 
@@ -71,7 +84,6 @@ namespace projectoef
                 tarea.Ignore(p => p.Resumen);
 
                 tarea.HasData(tareasInit);
-
             });
         }
     }
